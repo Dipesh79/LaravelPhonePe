@@ -1,0 +1,29 @@
+{
+    "name": "dipesh79/laravel-phonepe",
+    "description": "Laravel PhonePe - Laravel PhonePe Payment Integration Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dipesh79\\LaravelPhonePe\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dipesh79",
+            "email": "dipeshkhanal79@gmail.com",
+            "homepage": "https://www.khanaldipesh.com.np",
+            "role": "Developer"
+        }
+    ],
+
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dipesh79\\LaravelPhonePe\\LaravelPhonePeServiceProvider"
+            ]
+        }
+    }
+}
