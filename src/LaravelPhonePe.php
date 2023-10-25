@@ -11,8 +11,9 @@ class LaravelPhonePe
     private $baseUrl;
     private $saltKey;
     private $saltIndex;
+    private $callBackUrl;
 
-    private $redirectUrl, $callBackUrl;
+    private $merchantTransactionId;
 
     public function __construct()
     {
@@ -21,18 +22,18 @@ class LaravelPhonePe
         $this->baseUrl = config('phonepe.env') == 'production' ? 'https://api.phonepe.com/apis/hermes' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
         $this->saltKey = config('phonepe.saltKey');
         $this->saltIndex = config('phonepe.saltIndex');
-        $this->redirectUrl = config('phonepe.redirectUrl');
         $this->callBackUrl = config('phonepe.callBackUrl');
+        $this->merchantTransactionId = config('phonepe.merchantTransactionId');
     }
 
-    public function makePayment($amount, $merchantTransactionId, $phone)
+    public function makePayment($amount, $phone,$redirectUrl)
     {
         $data = array(
             'merchantId' => $this->merchantId,
-            'merchantTransactionId' => $merchantTransactionId,
+            'merchantTransactionId' => $this->merchantTransactionId,
             'merchantUserId' => $this->merchantUserId,
             'amount' => $amount * 100,
-            'redirectUrl' => $this->redirectUrl,
+            'redirectUrl' => $redirectUrl,
             'redirectMode' => 'POST',
             'callbackUrl' => $this->callBackUrl,
             'mobileNumber' => $phone,

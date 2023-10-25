@@ -8,4 +8,5 @@ return array(
     'saltIndex' => env('PHONEPE_SALT_INDEX'),
     'redirectUrl' => env('PHONEPE_REDIRECT_URL'),
     'callBackUrl' => env('PHONEPE_CALLBACK_URL'),
+    'merchantTransactionId' => env('PHONEPE_MERCHANT_TRANSACTION_ID'),
 );
