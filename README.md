@@ -19,7 +19,6 @@ PHONEPE_ENV="staging" //staging or production
 PHONEPE_SALT_KEY="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
 PHONEPE_SALT_INDEX="1"
 PHONEPE_CALLBACK_URL="http://localhost:8000"
-PHONEPE_MERCHANT_TRANSACTION_ID="MT7850590068188104"
 ```
 
 ### Publish Vendor File
@@ -40,7 +39,8 @@ use Dipesh79\LaravelPhonePe\LaravelPhonePe;
 public function phonePePayment()
 {
     $phonepe = new LaravelPhonePe();
-    $url = $phonepe->makePayment(1000, '9999999999', 'https://locahost:8000/redirct-url');
+    //amount, phone number, callback url, unique merchant transaction id
+    $url = $phonepe->makePayment(1000, '9999999999', 'https://locahost:8000/redirct-url','1');
     return redirect()->away($url);
 }
 

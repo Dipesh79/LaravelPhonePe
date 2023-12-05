@@ -13,8 +13,6 @@ class LaravelPhonePe
     private $saltIndex;
     private $callBackUrl;
 
-    private $merchantTransactionId;
-
     public function __construct()
     {
         $this->merchantId = config('phonepe.merchantId');
@@ -23,14 +21,13 @@ class LaravelPhonePe
         $this->saltKey = config('phonepe.saltKey');
         $this->saltIndex = config('phonepe.saltIndex');
         $this->callBackUrl = config('phonepe.callBackUrl');
-        $this->merchantTransactionId = config('phonepe.merchantTransactionId');
     }
 
-    public function makePayment($amount, $phone,$redirectUrl)
+    public function makePayment($amount, $phone,$redirectUrl,$merchantTransactionId)
     {
         $data = array(
             'merchantId' => $this->merchantId,
-            'merchantTransactionId' => $this->merchantTransactionId,
+            'merchantTransactionId' => $merchantTransactionId,
             'merchantUserId' => $this->merchantUserId,
             'amount' => $amount * 100,
             'redirectUrl' => $redirectUrl,
