@@ -1,5 +1,10 @@
 # Laravel PhonePe
 
+[![Latest Stable Version](http://poser.pugx.org/dipesh79/laravel-phonepe/v)](https://packagist.org/packages/dipesh79/laravel-phonepe)
+[![Total Downloads](http://poser.pugx.org/dipesh79/laravel-phonepe/downloads)](https://packagist.org/packages/dipesh79/laravel-phonepe)
+[![License](http://poser.pugx.org/dipesh79/laravel-phonepe/license)](https://packagist.org/packages/dipesh79/laravel-phonepe)
+
+
 This Laravel package allows you to integrate PhonePe payment on your Laravel Application.
 
 ## Usage/Examples
