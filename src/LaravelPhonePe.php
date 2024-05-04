@@ -3,6 +3,7 @@
 namespace Dipesh79\LaravelPhonePe;
 
 use Dipesh79\LaravelPhonePe\Exception\InvalidEnvironmentVariableException;
+use Dipesh79\LaravelPhonePe\Exception\PhonePeException;
 
 class LaravelPhonePe
 {
@@ -49,7 +50,10 @@ class LaravelPhonePe
         }
     }
 
-    public function makePayment($amount, $phone, $redirectUrl, $merchantTransactionId)
+    /**
+     * @throws PhonePeException
+     */
+    public function makePayment($amount, $phone, $redirectUrl, $merchantTransactionId): string
     {
         $data = array(
             'merchantId' => $this->merchantId,
@@ -95,10 +99,14 @@ class LaravelPhonePe
         curl_close($curl);
 
         $rData = json_decode($response);
-        return $rData->data->instrumentResponse->redirectInfo->url;
+        if ($rData->success) {
+            return $rData->data->instrumentResponse->redirectInfo->url;
+        } else {
+            throw new PhonePeException($rData->message);
+        }
     }
 
-    public function getTransactionStatus(array $request)
+    public function getTransactionStatus(array $request): bool
     {
 
         $finalXHeader = hash('sha256','/pg/v1/status/' . $request['merchantId'] . '/' . $request['transactionId'] . $this->saltKey) . '###' . $this->saltIndex;
