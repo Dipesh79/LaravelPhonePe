@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 
 class LaravelPhonePe
 {
-    private $merchantId;
-    private $merchantUserId;
-    private $baseUrl;
-    private $saltKey;
-    private $saltIndex;
-    private $callBackUrl;
+    private mixed $merchantId;
+    private mixed $merchantUserId;
+    private string $baseUrl;
+    private mixed $saltKey;
+    private mixed $saltIndex;
+    private mixed $callBackUrl;
 
     public function __construct()
     {
