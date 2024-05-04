@@ -2,7 +2,7 @@
 
 namespace Dipesh79\LaravelPhonePe;
 
-use Illuminate\Http\Request;
+use Dipesh79\LaravelPhonePe\Exception\InvalidEnvironmentVariableException;
 
 class LaravelPhonePe
 {
@@ -13,6 +13,9 @@ class LaravelPhonePe
     private mixed $saltIndex;
     private mixed $callBackUrl;
 
+    /**
+     * @throws InvalidEnvironmentVariableException
+     */
     public function __construct()
     {
         $this->merchantId = config('phonepe.merchantId');
@@ -21,9 +24,32 @@ class LaravelPhonePe
         $this->saltKey = config('phonepe.saltKey');
         $this->saltIndex = config('phonepe.saltIndex');
         $this->callBackUrl = config('phonepe.callBackUrl');
+        $this->checkEnvironment();
     }
 
-    public function makePayment($amount, $phone,$redirectUrl,$merchantTransactionId)
+    /**
+     * @throws InvalidEnvironmentVariableException
+     */
+    public function checkEnvironment(): void
+    {
+        if ($this->merchantId == null || $this->merchantId == '') {
+            throw new InvalidEnvironmentVariableException("Merchant Id is not added in .env file");
+        }
+        if ($this->merchantUserId == null || $this->merchantUserId == '') {
+            throw new InvalidEnvironmentVariableException("Merchant User Id is not added in .env file");
+        }
+        if ($this->saltKey == null || $this->saltKey == '') {
+            throw new InvalidEnvironmentVariableException("Salt Key is not added in .env file");
+        }
+        if ($this->saltIndex == null || $this->saltIndex == '') {
+            throw new InvalidEnvironmentVariableException("Salt Index is not added in .env file");
+        }
+        if ($this->callBackUrl == null || $this->callBackUrl == '') {
+            throw new InvalidEnvironmentVariableException("Call Back Url is not added in .env file");
+        }
+    }
+
+    public function makePayment($amount, $phone, $redirectUrl, $merchantTransactionId)
     {
         $data = array(
             'merchantId' => $this->merchantId,
@@ -70,19 +96,17 @@ class LaravelPhonePe
 
         $rData = json_decode($response);
         return $rData->data->instrumentResponse->redirectInfo->url;
-
-
     }
 
     public function getTransactionStatus(array $request)
     {
 
-        $finalXHeader = hash('sha256','/pg/v1/status/'.$request['merchantId'].'/'.$request['transactionId'].$this->saltKey).'###'.$this->saltIndex;
+        $finalXHeader = hash('sha256','/pg/v1/status/' . $request['merchantId'] . '/' . $request['transactionId'] . $this->saltKey) . '###' . $this->saltIndex;
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->baseUrl.'/pg/v1/status/'.$request['merchantId'].'/'.$request['transactionId'],
+            CURLOPT_URL => $this->baseUrl . '/pg/v1/status/' . $request['merchantId'] . '/' . $request['transactionId'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -93,8 +117,8 @@ class LaravelPhonePe
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'accept: application/json',
-                'X-VERIFY: '.$finalXHeader,
-                'X-MERCHANT-ID: '.$request['transactionId']
+                'X-VERIFY: ' . $finalXHeader,
+                'X-MERCHANT-ID: ' . $request['transactionId']
             ),
         ));
 
@@ -104,12 +128,8 @@ class LaravelPhonePe
 
         if (json_decode($response)->success) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-
-
 }
