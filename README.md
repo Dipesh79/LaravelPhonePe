@@ -14,9 +14,10 @@ This Laravel package allows you to integrate PhonePe payment on your Laravel App
 ```
 composer require dipesh79/laravel-phonepe
 ```
+## Official Documentation
 
+Documentation can be found on my [website](https://khanaldipesh.com.np/package/laravel-phonepe).
 
-For detailed documentation and examples, please visit [my website](https://khanaldipesh.com.np/package/laravel-phonepe).
 
 ## License
 
